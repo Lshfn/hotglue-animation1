@@ -46,7 +46,7 @@
                     piece.y += piece.vy;
                     ctx.putImageData(piece.data, piece.x, piece.y);
                 });
-                if (frame < 30) { // Adjust for explosion duration
+                if (frame < 80) { // Adjust for explosion duration
                     requestAnimationFrame(step);
                     frame++;
                 }
