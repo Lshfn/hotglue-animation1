@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Explosion</title>
+    <style>
+        body { display: flex; justify-content: center; align-items: center; height: 100vh; background: #000; }
+        canvas { position: absolute; }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const img = new Image();
+        img.src = 'your-image.jpg'; // Replace with your image path
+        
+        img.onload = () => {
+            canvas.width = img.width;
+            canvas.height = img.height;
+            ctx.drawImage(img, 0, 0);
+            explode();
+        };
+        
+        function explode() {
+            const pieces = [];
+            const pieceSize = 10; // Size of explosion pieces
+            for (let x = 0; x < img.width; x += pieceSize) {
+                for (let y = 0; y < img.height; y += pieceSize) {
+                    const piece = ctx.getImageData(x, y, pieceSize, pieceSize);
+                    pieces.push({ x, y, data: piece, vx: (Math.random() - 0.5) * 10, vy: (Math.random() - 0.5) * 10 });
+                }
+            }
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            animate(pieces);
+        }
+        
+        function animate(pieces) {
+            let frame = 0;
+            function step() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                pieces.forEach(piece => {
+                    piece.x += piece.vx;
+                    piece.y += piece.vy;
+                    ctx.putImageData(piece.data, piece.x, piece.y);
+                });
+                if (frame < 50) { // Adjust for explosion duration
+                    requestAnimationFrame(step);
+                    frame++;
+                }
+            }
+            step();
+        }
+    </script>
+</body>
+</html>
