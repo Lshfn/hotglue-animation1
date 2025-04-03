@@ -30,7 +30,7 @@
             for (let x = 0; x < img.width; x += pieceSize) {
                 for (let y = 0; y < img.height; y += pieceSize) {
                     const piece = ctx.getImageData(x, y, pieceSize, pieceSize);
-                    pieces.push({ x, y, data: piece, vx: (Math.random() - 0.5) * 10, vy: (Math.random() - 0.5) * 10 });
+                    pieces.push({ x, y, data: piece, vx: (Math.random() - 1.5) * 10, vy: (Math.random() - 1.5) * 10 });
                 }
             }
             ctx.clearRect(0, 0, canvas.width, canvas.height);
